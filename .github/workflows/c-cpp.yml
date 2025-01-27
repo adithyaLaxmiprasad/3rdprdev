@@ -1,23 +1,22 @@
-name: C/C++ CI
+name: C++ GitHub Actions Workflow
 
-on:
-  push:
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
+on: [push]
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v4
-    - name: configure
-      run: ./configure
-    - name: make
-      run: make
-    - name: make check
-      run: make check
-    - name: make distcheck
-      run: make distcheck
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Install dependencies
+      run: |
+        sudo apt update
+        sudo apt install -y g++
+
+    - name: Compile code
+      run: g++ -o addition addition.cpp
+
+    - name: Run tests
+      run: ./addition
